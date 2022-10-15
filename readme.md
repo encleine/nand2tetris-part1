@@ -82,17 +82,17 @@ one project per week but i may do more if i felt it
 </li>
 <li>
 <details>
-<summary><input type="checkbox" > 13 the unknown <i>oooo</i> </summary><p>
+<summary style="list-style-type: none"><input type="checkbox" > 13 the unknown <i>oooo</i> </summary><p>
     &emsp;
 </p></details>
 </li>
 </ul>
 
 
-<style>
-details > summary {list-style-type: '';user-select: none;}
+<!-- <style>
+details > summary {list-style-type: none}
 details[open] > summary {user-select: none;list-style-type: '';}
 input[type="checkbox"] {user-select: none;pointer-events:none;}
 ul {list-style: none;}
 li {list-style: none;list-style-type : none;}
-</style>
+</style> -->
