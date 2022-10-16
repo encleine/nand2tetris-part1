@@ -9,9 +9,16 @@
 
 CHIP FullAdder {
     IN a, b, c;  // 1-bit inputs
-    OUT sum,     // Right bit of a + b + c
-        carry;   // Left bit of a + b + c
+    OUT sum,     // Right bit of (a + b) + c
+        carry;   // Left bit of (a + b) + c
 
     PARTS:
-    // Put you code here:
+    Xor(a=a, b=b, out=out);
+    Xor(a=out, b=c, out=sum);
+    // (ab + bc) + ac
+    And(a=a, b=b, out=out0);
+    And(a=c, b=b, out=out1);
+    And(a=a, b=c, out=out2);
+    Or(a=out0, b=out1, out=out3);
+    Or(a=out2, b=out3, out=carry);
 }
