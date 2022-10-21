@@ -3,7 +3,7 @@
 doing this course with some friends and will be trying to be on the same pace as them <br>
 one project per week but i may do more if i felt it 
 
-### Projects done <sub>you can click the list items for more detials <sub> working on 02</sub></sub>
+### Projects done <sub>you can click the list items for more detials <sub> working on 03</sub></sub>
 
 
 <ul>
@@ -15,9 +15,11 @@ one project per week but i may do more if i felt it
 </p></details>
 
 <details>
-<summary> 02 Boolean arithmetic ✖️/✔️ </summary><p>
-    &emsp;started on 22/10/17 <br>
+<summary> 02 Boolean arithmetic ✔️ </summary><p>
+    &emsp;started on 22/10/17 finished on 22/10/21 <br>
     &emsp;taking more time since uni is eating through my brain <br>
+    &emsp;uni took more of my time than expected u-u <br>
+    &emsp;the alu was the hard part but the issues was with me not fully learning .hdl <br>
 </p></details>
 
 <details>
