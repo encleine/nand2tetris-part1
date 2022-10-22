@@ -28,6 +28,7 @@ one project per week but i may do more if i felt it
     &emsp;this was much easier than just the ALU maybe I'm just better with simple logic than math <br>
     &emsp;tho to be fair this project is too repetitive, the who thing was just redo this one chip but bigger <br><br>
     &emsp;I just noticed that this project is called memory in the book <br>
+    &emsp;updated: I feel dumb will count my idiocy as cheating just because I feel my brain cheated me<br>
 </p></details>
 
 <details>
