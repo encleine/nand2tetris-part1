@@ -23,8 +23,11 @@ one project per week but i may do more if i felt it
 </p></details>
 
 <details>
-<summary> 03 Sequential Logic ✖️ </summary><p>
-    &emsp;
+<summary> 03 Sequential Logic ✔️ </summary><p>
+    &emsp;started on 22/10/21 finished on 22/10/22 <br>
+    &emsp;this was much easier than just the ALU maybe I'm just better with simple logic than math <br>
+    &emsp;tho to be fair this project is too repetitive, the who thing was just redo this one chip but bigger <br><br>
+    &emsp;I just noticed that this project is called memory in the book <br>
 </p></details>
 
 <details>
