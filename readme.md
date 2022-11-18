@@ -3,7 +3,7 @@
 doing this course with some friends and will be trying to be on the same pace as them <br>
 one project per week but i may do more if i felt it 
 
-### Projects done <sub>you can click the list items for more detials <sub> working on 03</sub></sub>
+### Projects done <sub>you can click the list items for more detials <sub> working</sub></sub>
 
 
 <ul>
@@ -32,8 +32,11 @@ one project per week but i may do more if i felt it
 </p></details>
 
 <details>
-<summary> 04 Machine Language ✖️ </summary><p>
-    &emsp;
+<summary> 04 Machine Language ✔️ </summary><p>
+    &emsp;finished on 18/11/22 <br>
+    &emsp;uni took all my free time so i completely forgot about this course <br> 
+    &emsp;this project was easyish - even though this chapter was written badly<br>
+    &emsp;I don't feel proud of the code on this part that much though if i'm being honest <br>
 </p></details>
 
 <details>

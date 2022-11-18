@@ -10,5 +10,39 @@
 // When no key is pressed, the program clears the screen, i.e. writes
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
+@R5 
+D = M
+@color
+M = D
+(reset)
+	@SCREEN
+	D = A
+	@address
+	M = D
+//? checking if a key is pressed
+(keyboard)
+	@KBD
+	D = M
+	@color
+	M = D
+	@loop
+	D;JEQ
+	@color
+	M = -1
+//* changes the screen color
+(loop)
+	@color
+	D = M
+	@address
+	A = M
+	M = D
 
-// Put your code here.
+	@24576 
+	D = A
+	@address
+	D = D - M 
+	M = M + 1
+		@keyboard
+		D;JGT 
+	@reset
+	0;JMP
