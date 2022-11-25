@@ -27,8 +27,8 @@
 
 CHIP CPU {
 
-    IN  inM[16],         // M value input  (M = contents of RAM[A])
-        instruction[16], // Instruction for execution
+    IN  inM[16],         // M value input  (M = contents of RAM[A]) 
+        instruction[16], // Instruction for execution 
         reset;           // Signals whether to re-start the current
                          // program (reset==1) or continue executing
                          // the current program (reset==0).
@@ -37,7 +37,36 @@ CHIP CPU {
         writeM,          // Write to M? 
         addressM[15],    // Address in data memory (of M)
         pc[15];          // address of next instruction
-
     PARTS:
-    // Put your code here:
+    //? j0 j1 j2 d3 d4 d5 c6 c7 c8 c9 c10 c11 a12 x13 x14 c15
+    Mux16(a=instruction, b=aluout, sel=instruction[15], out=muxA);
+
+    Not(in=instruction[15], out=aload);
+    Or(a=aload, b=instruction[5], out=cload);
+    ARegister(in=muxA, load=cload, out[0..14]=addressM, out=areg);
+
+    And (a=instruction[4], b=instruction[15], out=loadDReg);
+    DRegister(in=aluout, load=loadDReg, out=dreg);
+
+    Mux16(a=areg, b=inM, sel=instruction[12], out=alumux);
+    ALU(
+        x=dreg, y=alumux, 
+        zx=instruction[11], nx=instruction[10], 
+        zy=instruction[9], ny=instruction[8], 
+        f=instruction[7], no=instruction[6], 
+        out=outM, out=aluout, 
+        zr=outIsZero, ng=outNegitive
+    );
+    
+    And(a=instruction[2], b=outNegitive, out=j2);
+    And(a=instruction[1], b=outIsZero, out=j1);
+    Or(a=outNegitive, b=outIsZero, out=ngzr);
+    Not(in=ngzr, out=notngzr);
+    And(a=instruction[0], b=notngzr, out=j0);
+    Or(a=j2, b=j1, out=j21);
+    Or(a=j21, b=j0, out=jmp);
+    And (a=jmp, b=instruction[15], out=load);
+
+    PC(in=areg, load=load, inc=true, reset=reset, out[0..14]=pc);
+    And (a=instruction[3], b=instruction[15], out=writeM);
 }

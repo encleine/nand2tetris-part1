@@ -40,8 +40,10 @@ one project per week but i may do more if i felt it
 </p></details>
 
 <details>
-<summary> 05 Computer Architecture ✖️ </summary><p>
-    &emsp;
+<summary> 05 Computer Architecture ✔️ </summary><p>
+    &emsp;finished on 18/11/25 <br>
+    &emsp;I don't really feel accomplished with this one <br>
+    &emsp;the book is much worse on this part <br>
 </p></details>
 
 <details>
