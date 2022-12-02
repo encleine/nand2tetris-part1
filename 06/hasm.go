@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 var symbolTable = map[string]uint16{
