@@ -55,8 +55,10 @@ one project per week but i may do more if i felt it
 </p></details>
 
 <details>
-<summary> 07 VM I: Stack Arithmetic ✖️ </summary><p>
-    &emsp;
+<summary> 07 VM I: Stack Arithmetic ✔️ </summary><p>
+    &emsp;finsied on 23/01/02 <br>
+    &emsp;this was fine, live took focus though so it took me more time to finish it <br>
+    &emsp;the book wasn't clear about some part so it took some time figuring out what they want <br>
 </p></details>
 
 <details>

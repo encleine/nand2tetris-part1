@@ -2,10 +2,7 @@ module example.com/m/v2
 
 go 1.19
 
-require (
-	// github.com/urfave/cli v1.22.10
-	github.com/urfave/cli/v2 v2.23.5
-)
+require github.com/urfave/cli/v2 v2.23.5
 
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
