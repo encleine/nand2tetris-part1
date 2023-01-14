@@ -52,9 +52,9 @@ var obs = map[string]string{
 	"and": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nM=M&D\n@SP\nM=M+1\n",
 	"or":  "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nM=M|D\n@SP\nM=M+1\n",
 
-	"gt": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=D-M\nM=1\n@skip%d\nD;JGT\n@SP\nA=M\nM=0\n(skip%d)\n@SP\nM=M+1\n",
-	"lt": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=D-M\nM=1\n@skip%d\nD;JLT\n@SP\nA=M\nM=0\n(skip%d)\n@SP\nM=M+1\n",
-	"eq": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=D-M\nM=1\n@skip%d\nD;JEQ\n@SP\nA=M\nM=0\n(skip%d)\n@SP\nM=M+1\n",
+	"gt": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=D-M\nM=-1\n@skip%d\nD;JGT\n@SP\nA=M\nM=0\n(skip%d)\n@SP\nM=M+1\n",
+	"lt": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=D-M\nM=-1\n@skip%d\nD;JLT\n@SP\nA=M\nM=0\n(skip%d)\n@SP\nM=M+1\n",
+	"eq": "@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=D-M\nM=-1\n@skip%d\nD;JEQ\n@SP\nA=M\nM=0\n(skip%d)\n@SP\nM=M+1\n",
 
 	"not": "@SP\nA=M-1\nM=!M",
 	"neg": "@SP\nA=M-1\nM=-M",

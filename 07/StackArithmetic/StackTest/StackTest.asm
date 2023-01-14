@@ -20,8 +20,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip0
 D;JEQ
 @SP
@@ -52,8 +52,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip1
 D;JEQ
 @SP
@@ -84,8 +84,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip2
 D;JEQ
 @SP
@@ -116,8 +116,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip3
 D;JLT
 @SP
@@ -148,8 +148,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip4
 D;JLT
 @SP
@@ -180,8 +180,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip5
 D;JLT
 @SP
@@ -212,8 +212,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip6
 D;JGT
 @SP
@@ -244,8 +244,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip7
 D;JGT
 @SP
@@ -276,8 +276,8 @@ AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-M=1
+D=M-D
+M=-1
 @skip8
 D;JGT
 @SP
@@ -339,7 +339,8 @@ M=M+1
 // neg
 @SP
 A=M-1
-M=-M// and
+M=-M
+// and
 @SP
 AM=M-1
 D=M
