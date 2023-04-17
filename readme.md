@@ -56,14 +56,17 @@ one project per week but i may do more if i felt it
 
 <details>
 <summary> 07 VM I: Stack Arithmetic ✔️ </summary><p>
-    &emsp;finsied on 23/01/02 <br>
+    &emsp;finished on 23/01/02 <br>
     &emsp;this was fine, live took focus though so it took me more time to finish it <br>
     &emsp;the book wasn't clear about some part so it took some time figuring out what they want <br>
 </p></details>
 
 <details>
-<summary> 08 VM II: Program Control ✖️ </summary><p>
-    &emsp;
+<summary> 08 VM II: Program Control ✔️ </summary><p>
+    &emsp;finished on 23/4/17 <br>
+    &emsp;implemented the whole thing but the assembly code generated is faulty; pop push call and func are correcttly implemented so there's a mistake with how i'm going with the assembly and I don't feel like debuging it <br>
+    &emsp;I learned how to finish this with Thorsten Ball's book <br>
+    &emsp;I pushed the assmbly files as well because I don't know whether I should or not <br>
 </p></details>
 
 <details>

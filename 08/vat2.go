@@ -16,22 +16,17 @@ import (
 )
 
 const (
-	local = iota + 1
-	argument
-	this
-	that
-
 	functionCallPrep = "(functionCallPrep)\n// push return address \n@R13\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n// push lcl\n@1\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n// push args\n@2\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n// push this\n@3\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n// push that\n@4\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n//+ARG = (*sp) - 5 - arg num\n@5\nD=A\n@R14\nD=M+D\n@SP\nD=M-D\n@ARG\nM=D\n@SP\nD=M\n@LCL\nM=D\n// R15 stores the call address \n@R15\nA=M\n0;JMP\n"
 	returnPrep       = "(return-prep)\n// pop last in stack to arg\n@SP\nAM=M-1\nD=M\n@ARG\nA=M\nM=D\nD=A\n@R13\nM=D\n// pop that\n@LCL\nD=M\n@SP\nAM=D\nD=M\n@THAT\nM=D\n// pop this\n@SP\nAM=M-1\nD=M\n@THIS\nM=D\n// pop to arg\n@SP\nAM=M-1\nD=M\n@ARG\nM=D\n// pop to lcl\n@SP\nAM=M-1\nD=M\n@LCL\nM=D\n// return address\n@SP\nAM=M-1\nD=M\n@R15\nM=D\n@R13\nD=M\n@SP\nM=D\n@R15\nA=M\n0;JMP\n"
 )
 
 var (
 	app = cli.NewApp()
-	seg = map[string]int{
-		"local":    local,
-		"argument": argument,
-		"this":     this,
-		"that":     that,
+	seg = map[string]string{
+		"local":    "LCL",
+		"argument": "ARG ",
+		"this":     "THIS",
+		"that":     "THAT",
 	}
 	ops = map[string]string{
 		"add": "+",
@@ -51,6 +46,7 @@ type vm struct {
 	curr     []string
 	skip     int
 	count    int
+	notDone  bool
 }
 
 func new(file *os.File, path string) *vm {
@@ -63,21 +59,16 @@ func new(file *os.File, path string) *vm {
 }
 
 func (v *vm) next() {
-	token := v.reader.Text()
-	val := strings.TrimSpace(string(token))
+	v.notDone = v.reader.Scan()
+	val := v.reader.Text()
 	if com := strings.Index(val, "//"); com != -1 {
 		val = val[:com]
 	}
-	v.curr = strings.Split(val, " ")
-}
-func (v *vm) skipEmpty() {
-	for len(v.curr) == 0 {
-		v.next()
-	}
+	v.curr = strings.Split(strings.TrimSpace(val), " ")
 }
 func (v *vm) Compare() string {
 	var buffer bytes.Buffer
-	buffer.WriteString(fmt.Sprintf("@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=M-D\nM=-1\n@skip$%d$\nD;", v.skip))
+	buffer.WriteString(fmt.Sprintf("@SP\nAM=M-1\nD=M\n@SP\nAM=M-1\nD=M-D\nM=-1\n@skip$%d\nD;", v.skip))
 	switch v.curr[0] {
 	case "lt":
 		buffer.WriteString("JLT\n")
@@ -86,15 +77,20 @@ func (v *vm) Compare() string {
 	case "eq":
 		buffer.WriteString("JEQ\n")
 	}
-	buffer.WriteString(fmt.Sprintf("@SP\nA=M\nM=0\n(skip$%d$)\n@SP\nM=M+1\n", v.skip))
+	buffer.WriteString(fmt.Sprintf("@SP\nA=M\nM=0\n(skip$%d)\n@SP\nM=M+1\n", v.skip))
 	v.skip++
 	return buffer.String()
+}
+func (v *vm) skipEmpty() {
+	for v.notDone && (v.curr[0] == "" || len(v.curr) == 0) {
+		v.next()
+	}
 }
 func (v *vm) Pop() string {
 	var buffer string
 	switch v.curr[1] {
 	case "local", "argument", "this", "that":
-		buffer = fmt.Sprintf("@%s\nD=A\n@%d\nD=M+D\n@R13\nM=D\n@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", v.curr[2], seg[v.curr[1]])
+		buffer = fmt.Sprintf("@%s\nD=A\n@%s\nD=M+D\n@R13\nM=D\n@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", v.curr[2], seg[v.curr[1]])
 	default:
 		buffer = v.helper("@SP\nAM=M-1\nD=M\n@%s\nM=D\n")
 	}
@@ -105,7 +101,7 @@ func (v *vm) Push() string {
 	case "constant":
 		return fmt.Sprintf("@%s\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n", v.curr[2])
 	case "local", "argument", "this", "that":
-		return fmt.Sprintf("@%s\nD=A\n@%d\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n", v.curr[2], seg[v.curr[1]])
+		return fmt.Sprintf("@%s\nD=A\n@%s\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n", v.curr[2], seg[v.curr[1]])
 	default:
 		return v.helper("@%s\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n")
 	}
@@ -117,9 +113,9 @@ func (v *vm) helper(dummy string) string {
 		buffer = filepath.Base(v.path) + "$" + v.curr[2]
 	case "pointer": //> pointer 0/1
 		if v.curr[2] == "0" {
-			buffer = "3"
+			buffer = "THIS"
 		} else if v.curr[2] == "1" {
-			buffer = "4"
+			buffer = "THAT"
 		}
 	case "temp": //> 5 - 12
 		num, _ := strconv.Atoi(v.curr[2])
@@ -157,6 +153,9 @@ func (v *vm) Call() string {
 }
 func (v *vm) Func() string {
 	v.currfunc = v.curr[1]
+	if v.curr[2] == "0" {
+		return fmt.Sprintf("(%s$%s)\n", v.path, v.curr[1])
+	}
 	return fmt.Sprintf("(%s$%s)\n@%s\nD=A\n@SP\nM=D+M\n", v.path, v.curr[1], v.curr[2])
 }
 func (v *vm) Return() string {
@@ -183,7 +182,6 @@ func (v *vm) code() string {
 	v.skipEmpty()
 
 	output.WriteString("// " + strings.Join(v.curr, " ") + "\n")
-
 	switch v.curr[0] {
 	case "pop":
 		output.WriteString(v.Pop())
@@ -217,7 +215,7 @@ func codeWriter(file *os.File, path string) chan string {
 	v := new(file, path)
 	go func() {
 		defer close(c)
-		for v.reader.Scan() {
+		for v.notDone {
 			c <- v.code()
 		}
 	}()
@@ -237,6 +235,10 @@ func (b *builder) addPrep() {
 		WriteString(returnPrep)
 	b.content.
 		WriteString(functionCallPrep)
+}
+func (b *builder) setStack() {
+	b.content.
+		WriteString("@256\nD=A\n@SP\nM=D\n")
 }
 func check(err error, message string) {
 	if err != nil {
@@ -273,12 +275,13 @@ func newBuilder(path string) *builder {
 func (b *builder) readFile(fileName string) {
 	fi, _ := os.Open(filepath.Join(b.path, fileName))
 	defer fi.Close()
-	for line := range codeWriter(fi, fmt.Sprintf("%s$%s", b.name, fileName[:len(fileName)-3])) {
+	for line := range codeWriter(fi, b.name) {
 		b.content.WriteString(line)
 	}
 }
 func VM(path string) {
 	b := newBuilder(path)
+	b.setStack()
 	if !b.isDir {
 		b.readFile(b.file.Name())
 		b.dumcContent()
